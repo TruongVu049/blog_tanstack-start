@@ -97,9 +97,8 @@ export const editPost = createServerFn({ method: "POST" })
 
       // Add the new post to the list
       const updatedPosts = postsData.map((p) =>
-        p.id === data.id ? data : p
+        p.id === data.id ? postToEdit : p
       );
-
       // Write the updated posts back to the file
       await fs.promises.writeFile(
         POSTS_FILE,
@@ -129,5 +128,36 @@ export const getMyPosts = createServerFn({ method: "GET" })
     } catch (error) {
       console.error("Error reading posts file:", error);
       return null;
+    }
+  });
+
+
+export const deletePost = createServerFn({ method: "POST" })
+  .validator((postId: string) => postId)
+  .handler(async ({ data: postId }) => {
+    try {
+      // Read the existing posts from the file
+      const postsData = await getPosts();
+
+      // Find the post to delete
+      const postToDelete = postsData.find((p) => p.id === postId);
+      if (!postToDelete) {
+        throw new Error("Post not found");
+      }
+
+      // Remove the post from the list
+      const updatedPosts = postsData.filter((p) => p.id !== postId);
+
+      // Write the updated posts back to the file
+      await fs.promises.writeFile(
+        POSTS_FILE,
+        JSON.stringify(updatedPosts, null, 2),
+        "utf-8"
+      );
+
+      return postId;
+    } catch (error) {
+      console.error("Failed to delete post:", error);
+      throw new Error("Failed to delete post");
     }
   });

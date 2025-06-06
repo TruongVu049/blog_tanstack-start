@@ -23,7 +23,6 @@ import { Route as PostsPostIdIndexImport } from './routes/posts/$postId/index'
 import { Route as AuthSigninIndexImport } from './routes/auth/signin/index'
 import { Route as AuthRegisterIndexImport } from './routes/auth/register/index'
 import { Route as AuthLogoutIndexImport } from './routes/auth/logout/index'
-import { Route as PostsEditPostIdIndexImport } from './routes/posts/edit.$postId/index'
 
 // Create/Update Routes
 
@@ -97,12 +96,6 @@ const AuthLogoutIndexRoute = AuthLogoutIndexImport.update({
   id: '/logout/',
   path: '/logout/',
   getParentRoute: () => AuthRouteRoute,
-} as any)
-
-const PostsEditPostIdIndexRoute = PostsEditPostIdIndexImport.update({
-  id: '/edit/$postId/',
-  path: '/edit/$postId/',
-  getParentRoute: () => PostsRouteRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
@@ -193,13 +186,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProfileMyPostIndexImport
       parentRoute: typeof ProfileRouteImport
     }
-    '/posts/edit/$postId/': {
-      id: '/posts/edit/$postId/'
-      path: '/edit/$postId'
-      fullPath: '/posts/edit/$postId'
-      preLoaderRoute: typeof PostsEditPostIdIndexImport
-      parentRoute: typeof PostsRouteImport
-    }
   }
 }
 
@@ -225,14 +211,12 @@ interface PostsRouteRouteChildren {
   PostsIndexRoute: typeof PostsIndexRoute
   PostsPostIdIndexRoute: typeof PostsPostIdIndexRoute
   PostsCreateIndexRoute: typeof PostsCreateIndexRoute
-  PostsEditPostIdIndexRoute: typeof PostsEditPostIdIndexRoute
 }
 
 const PostsRouteRouteChildren: PostsRouteRouteChildren = {
   PostsIndexRoute: PostsIndexRoute,
   PostsPostIdIndexRoute: PostsPostIdIndexRoute,
   PostsCreateIndexRoute: PostsCreateIndexRoute,
-  PostsEditPostIdIndexRoute: PostsEditPostIdIndexRoute,
 }
 
 const PostsRouteRouteWithChildren = PostsRouteRoute._addFileChildren(
@@ -266,7 +250,6 @@ export interface FileRoutesByFullPath {
   '/posts/create': typeof PostsCreateIndexRoute
   '/profile/info': typeof ProfileInfoIndexRoute
   '/profile/my-post': typeof ProfileMyPostIndexRoute
-  '/posts/edit/$postId': typeof PostsEditPostIdIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -281,7 +264,6 @@ export interface FileRoutesByTo {
   '/posts/create': typeof PostsCreateIndexRoute
   '/profile/info': typeof ProfileInfoIndexRoute
   '/profile/my-post': typeof ProfileMyPostIndexRoute
-  '/posts/edit/$postId': typeof PostsEditPostIdIndexRoute
 }
 
 export interface FileRoutesById {
@@ -298,7 +280,6 @@ export interface FileRoutesById {
   '/posts/create/': typeof PostsCreateIndexRoute
   '/profile/info/': typeof ProfileInfoIndexRoute
   '/profile/my-post/': typeof ProfileMyPostIndexRoute
-  '/posts/edit/$postId/': typeof PostsEditPostIdIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -316,7 +297,6 @@ export interface FileRouteTypes {
     | '/posts/create'
     | '/profile/info'
     | '/profile/my-post'
-    | '/posts/edit/$postId'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -330,7 +310,6 @@ export interface FileRouteTypes {
     | '/posts/create'
     | '/profile/info'
     | '/profile/my-post'
-    | '/posts/edit/$postId'
   id:
     | '__root__'
     | '/'
@@ -345,7 +324,6 @@ export interface FileRouteTypes {
     | '/posts/create/'
     | '/profile/info/'
     | '/profile/my-post/'
-    | '/posts/edit/$postId/'
   fileRoutesById: FileRoutesById
 }
 
@@ -395,8 +373,7 @@ export const routeTree = rootRoute
       "children": [
         "/posts/",
         "/posts/$postId/",
-        "/posts/create/",
-        "/posts/edit/$postId/"
+        "/posts/create/"
       ]
     },
     "/profile": {
@@ -437,10 +414,6 @@ export const routeTree = rootRoute
     "/profile/my-post/": {
       "filePath": "profile/my-post/index.tsx",
       "parent": "/profile"
-    },
-    "/posts/edit/$postId/": {
-      "filePath": "posts/edit.$postId/index.tsx",
-      "parent": "/posts"
     }
   }
 }

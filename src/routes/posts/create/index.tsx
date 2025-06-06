@@ -110,6 +110,11 @@ function RouteComponent() {
           type="submit"
           className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
         >
+          {
+            isSubmitting && (
+              <div className='absolute left-1/3 rounded-full h-5 w-5 border-white border-2 border-b-0 animate-spin' />
+            )
+          }
           Add new post
         </button>
       </form>
